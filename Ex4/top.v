@@ -21,26 +21,24 @@ module lights(clk,rst,button,colour);
 input clk,rst,button;
 output colour;
 
-rst=0;
-wire [2:0] colour;
+reg [2:0] colour;
 
-always@(posedge clk)
- if (colour==3'b000 || colour==3'b111)
-  colour=3'b001;
- else if (colour==3'b001 && button ==1)
-  colour=3'b010;
- else if (colour==3'b010 && button ==1)
-  colour=3'b011;
- else if (colour==3'b011 && button ==1)
-  colour=3'b100;
- else if (colour==3'b100 && button ==1)
-  colour=3'b101;
- else if (colour==3'b101 && button ==1)
-  colour=3'b110;
- else if (colour==3'b110 && button ==1)
-  colour=3'b001;
- else 
- colour=colour
+always@(posedge clk) begin
 
+ if (rst) 
+  colour<=3'b001;
+
+ else begin
+  if (button==0)
+   colour=(colour==3'b000 || colour==3'b111)?3'b001:colour;
+ 
+  else 
+  colour=(colour==3'b110||colour==3'b111)? 3'b001:colour+1;
+  
+ end
+ 
+end 
+
+endmodule
 
 

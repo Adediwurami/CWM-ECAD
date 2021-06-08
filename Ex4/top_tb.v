@@ -20,8 +20,8 @@ module top_tb(
     reg rst;
     reg button;
     reg err;
-    reg [3:0] colour_now;
-    wire [3:0] colour;
+    reg [2:0] colour_now;
+    wire [2:0] colour;
 
     //Clock generation
     initial
@@ -33,61 +33,38 @@ module top_tb(
     
      //Stimulus logic
      initial begin
-     button=1;
+     button=0;
      err=0;
-     rst=0;
+     rst=1;
+     colour_now=3'b001;
 
      #CLK_PERIOD
-     if (colour==3'b001 && colour!=3'b010) begin
+     if (colour!=3'b001) begin
       $display("***TEST FAILED!***");
       err=1;
-     end 
+     end
 
-     if (colour==3'b010 && colour!=3'b011) begin
-      $display("***TEST FAILED!***");
-      err=1;
-     end 
-     
-     if (colour==3'b011 && colour!=3'b100) begin
-      $display("***TEST FAILED!***");
-      err=1;
-     end 
-     
-     if (colour==3'b100 && colour!=3'b101) begin
-      $display("***TEST FAILED!***");
-      err=1;
-     end 
-     
-     if (colour==3'b101 && colour!=3'b110) begin
-      $display("***TEST FAILED!***");
-      err=1;
-     end 
-
-     if (colour==3'b110 && colour!=3'b001) begin
-      $display("***TEST FAILED!***");
-      err=1;
-     end 
-     
-     if ((colour!=3'b000 || colour!=3'b111) & (colour!=3'b001)) begin
+     rst=0;
+     #CLK_PERIOD
+     if (colour!=3'b001) begin
       $display("***TEST FAILED!***");
       err=1;
      end
      
-     button = 0;
-
+     button=1;
+     forever begin
      #CLK_PERIOD
-     assign colour_now=
-     (colour==3'b000 || colour==3'b111) ? 3'b001: colour;
-
+     if (button==1)
+      colour_now=(colour_now==3'b110 || colour_now==3'b111)?3'b001: colour_now+1;
+     
      if (colour_now!=colour) begin
       $display("***TEST FAILED!***");
       err=1;
      end
-     
-     
- 
      end
-     
+     end
+
+    
           
       //Finish simulation and check for success
       initial begin
@@ -99,7 +76,7 @@ module top_tb(
       end
 
     //User's module
-    light top (
+    lights top (
      .rst(rst),
      .clk(clk),
      .button (button),
