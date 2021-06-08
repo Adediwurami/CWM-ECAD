@@ -71,6 +71,12 @@ module top_tb(
         err=1;
      end
      
+    change=0;
+    #CLK_PERIOD 
+    if (counter_out!=counter_out) begin
+      $display("***TEST FAILED!***");
+        err=1;
+     end
  
      end
      
