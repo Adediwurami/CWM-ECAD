@@ -65,13 +65,26 @@ module top_tb(
      end
      
      end
+     
+     #CLK_PERIOD 
+     on_off=1;
+     forever begin
+     counter_prev= on_off ? counter_prev+1: counter_prev-1;
+     
+     #CLK_PERIOD  
+     if (counter_prev!=counter_out) begin
+      $display("***TEST FAILED!***");
+        err=1;
+     end
+     
+     end
  
      end
      
           
       //Finish simulation and check for success
       initial begin
-        #50 
+        #100 
         if (err==0) 
           $display("***TEST PASSED! :) ***");
         $finish;
