@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Test bench for Exercise #3 - Active IoT Devices Monitor
 // Student Name: Adedamilola Tariuwa
-// Date: 07/06/2021
+// Date: 08/06/2021
 //
 // Description: A testbench module to test Ex3 - Active IoT Devices Monitor
 // Guidance: start with simple tests of the module (how should it react to each 
@@ -55,8 +55,8 @@ module top_tb(
      end
 
      change=1;
-     forever begin
-     counter_prev= on_off ? counter_prev+1: counter_prev-1;
+     assign counter_prev=
+     (on_off==1) ? counter_prev+1: counter_prev-1;
      
      #CLK_PERIOD  
      if (counter_prev!=counter_out) begin
@@ -64,20 +64,13 @@ module top_tb(
         err=1;
      end
      
-     end
-     
-     #CLK_PERIOD 
      on_off=1;
-     forever begin
-     counter_prev= on_off ? counter_prev+1: counter_prev-1;
-     
-     #CLK_PERIOD  
+     #CLK_PERIOD 
      if (counter_prev!=counter_out) begin
       $display("***TEST FAILED!***");
         err=1;
      end
      
-     end
  
      end
      
