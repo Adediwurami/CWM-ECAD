@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Exercise #3 - Active IoT Devices Monitor
 // Student Name: Adedamilola Tariuwa
-// Date: 07/06/2021
+// Date: 08/06/2021
 //
 //  Description: In this exercise, you need to design a counter of active IoT devices, where 
 //  if the rst=1, the counter should be set to zero. If event=0, the value
