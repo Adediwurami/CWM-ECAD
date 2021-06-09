@@ -19,7 +19,8 @@ module top_tb(
     reg clk;
     reg temperature;
     reg err;
-    wire heating,cooling; 
+    wire heating;
+    wire cooling; 
 
     //Clock generation
     initial

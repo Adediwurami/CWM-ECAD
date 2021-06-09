@@ -15,15 +15,16 @@
 
 module aircon(clk,temperature,heating,cooling);
 
-input clk,temperature;
+input clk;
+input [4:0] temperature;
 
-[4:0] temperature;
+output heating;
+output cooling;
+reg heating;
+reg cooling;
 
-output heating,cooling;
-reg heating, cooling;
-
-reg [1,0] state;
-reg [1,0] next_state;
+reg [1:0] state;
+reg [1:0] next_state;
 
 // The three states
 parameter perfect=2'b00;
@@ -34,7 +35,7 @@ parameter too_hot=2'b10;
 
 always@(posedge clk) begin
  if(clk) begin
-   state<=idle;
+   state<=perfect;
    next_state<=perfect;
  end
  else begin
@@ -50,12 +51,10 @@ always@(state) begin
    {heating,cooling}=2'b01;
   end
  
-  case(state)
   perfect: begin
    {heating,cooling}=2'b00;
   end
   
-  case(state)
   too_cold: begin
    {heating,cooling}=2'b10;
   end
