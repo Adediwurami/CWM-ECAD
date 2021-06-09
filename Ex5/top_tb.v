@@ -19,6 +19,7 @@ module top_tb(
     reg clk;
     reg temperature;
     reg err;
+    reg [1:0] current_state; 
     wire heating;
     wire cooling; 
 
@@ -33,64 +34,53 @@ module top_tb(
      //Stimulus logic
      initial begin
      err=0;
+     temperature=5'b00001
+     current_state=2'b01
      
-     // Testing that conditions are met in a clockwise direction from idle
-     
-     temperature=5'b10101;
-
+     forever begin
      #CLK_PERIOD
-     if ({heating,cooling} != 2'b00) begin
+     if (((current_state==2'b01)&&(temperature<5'b10100))&&({heating,cooling}!= 2'b01) begin
       $display("***TEST FAILED!***");
       err=1;
      end
-     
-     temperature=5'b10110;
-
-     #CLK_PERIOD
-     if ({heating,cooling} != 2'b01) begin
+      
+      else if (((current_state==2'b01)&&(temperature>=5'b10100))&&({heating,cooling}!= 2'b00) begin
       $display("***TEST FAILED!***");
       err=1;
      end
      
-     temperature=5'b10101;
-
-     #CLK_PERIOD
-     if ({heating,cooling} != 2'b01) begin
-      $display("***TEST FAILED!***");
-      err=1;
-     end
-
-     temperature=5'b10100;
-
-     #CLK_PERIOD
-     if ({heating,cooling} != 2'b00) begin
+      else if (((current_state==2'b00)&&(temperature>=5'b10110))&&({heating,cooling}!= 2'b10) begin
       $display("***TEST FAILED!***");
       err=1;
      end
      
-     temperature=5'b10001;
+       else if (((current_state==2'b00)&&(temperature<=5'b10010<))&&({heating,cooling}!= 2'b01) begin
+      $display("***TEST FAILED!***");
+      err=1;
+     end
 
-     #CLK_PERIOD
-     if ({heating,cooling} != 2'b10) begin
+      else if (((current_state==2'b00)&&(5'b10010<temperature<5'b10110))&&({heating,cooling}!= 2'b00) begin
+      $display("***TEST FAILED!***");
+      err=1;
+     end
+      
+      else if (((current_state==2'b10)&&(temperature<=5'b10100))&&({heating,cooling}!= 2'b00) begin
+      $display("***TEST FAILED!***");
+      err=1;
+     end
+
+     else if (((current_state==2'b10)&&(temperature>5'b10100))&&({heating,cooling}!= 2'b10) begin
       $display("***TEST FAILED!***");
       err=1;
      end
      
-     temperature=5'b10010;
-
-     #CLK_PERIOD
-     if ({heating,cooling} != 2'b10) begin
+     else if ({heating,cooling}!= 2'b00) begin
       $display("***TEST FAILED!***");
       err=1;
      end
-
-     temperature=5'b10100;
-
-     #CLK_PERIOD
-     if ({heating,cooling} != 2'b00) begin
-      $display("***TEST FAILED!***");
-      err=1;
-     end
+     
+     temperature=temperature+1
+     current_state={heating,cooling}
      
      end 
           
@@ -106,7 +96,7 @@ module top_tb(
     //User's module
     aircon top (
      .clk(clk),
-     .temperature (temperature),
+     .temperature(temperature),
      .heating(heating),
      .cooling(cooling)
      );
