@@ -31,21 +31,30 @@ parameter perfect=2'b00;
 parameter too_cold=2'b01;
 parameter too_hot=2'b10;
 
-// Setting the current and next states
+//Setting the current and next states
 
 always@(posedge clk) begin
- if(clk) begin
-   state<=perfect;
-   next_state<=perfect;
- end
- else begin
+
+  if (next_state)
    state<=next_state;
- end
+  else begin 
+
+  if (temperature <= 5'b10010)
+  state<=too_cold;
+
+  else if (temperature>=5'b10110)
+  state<=too_hot;
+
+  else 
+  state<=perfect;
+ 
+  end 
+  
 end
 
 // Output based on current state
 
-always@(state) begin 
+always@(state or temperature) begin 
  case(state)
   too_hot: begin
    {heating,cooling}=2'b01;
@@ -65,9 +74,9 @@ always@(state) begin
  endcase
 end
 
-// Next state 
+// Next_state
 
-always@(state) begin
+always@(state or temperature) begin
  case(state)
   too_hot: begin
    next_state = (temperature>5'b10100)?too_hot:perfect;

@@ -17,7 +17,7 @@ module top_tb(
 
     //Registers and wires
     reg clk;
-    reg temperature;
+    reg [4:0] temperature;
     reg err;
     reg [1:0] current_state; 
     wire heating;
@@ -26,7 +26,7 @@ module top_tb(
     //Clock generation
     initial
     begin
-       clk = 1'b0;
+       clk = 1'b1;
        forever
          #(CLK_PERIOD/2) clk=~clk;
      end
@@ -34,64 +34,61 @@ module top_tb(
      //Stimulus logic
      initial begin
      err=0;
-     temperature=5'b00001
-     current_state=2'b01
+     temperature=5'b00000;
+     current_state=2'b10;
      
      forever begin
      #CLK_PERIOD
-     if (((current_state==2'b01)&&(temperature<5'b10100))&&({heating,cooling}!= 2'b01) begin
+     if (((current_state==2'b10)&&(temperature<5'b10100))&&({heating,cooling}!= 2'b10)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
       
-      else if (((current_state==2'b01)&&(temperature>=5'b10100))&&({heating,cooling}!= 2'b00) begin
+      else if (((current_state==2'b10)&&(temperature>=5'b10100))&&({heating,cooling}!= 2'b00)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
      
-      else if (((current_state==2'b00)&&(temperature>=5'b10110))&&({heating,cooling}!= 2'b10) begin
+      else if (((current_state==2'b00)&&(temperature>=5'b10110))&&({heating,cooling}!= 2'b01)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
      
-       else if (((current_state==2'b00)&&(temperature<=5'b10010<))&&({heating,cooling}!= 2'b01) begin
+       else if (((current_state==2'b00)&&(temperature<=5'b10010))&&({heating,cooling}!= 2'b10))begin
       $display("***TEST FAILED!***");
       err=1;
      end
 
-      else if (((current_state==2'b00)&&(5'b10010<temperature<5'b10110))&&({heating,cooling}!= 2'b00) begin
+      else if (((current_state==2'b00)&&(5'b10010<temperature<5'b10110))&&({heating,cooling}!= 2'b00)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
       
-      else if (((current_state==2'b10)&&(temperature<=5'b10100))&&({heating,cooling}!= 2'b00) begin
+      else if (((current_state==2'b01)&&(temperature<=5'b10100))&&({heating,cooling}!= 2'b00)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
 
-     else if (((current_state==2'b10)&&(temperature>5'b10100))&&({heating,cooling}!= 2'b10) begin
+     else if (((current_state==2'b01)&&(temperature>5'b10100))&&({heating,cooling}!= 2'b01)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
      
-     else if ({heating,cooling}!= 2'b00) begin
-      $display("***TEST FAILED!***");
-      err=1;
-     end
-     
-     temperature=temperature+1
-     current_state={heating,cooling}
+     current_state={heating,cooling};
+     temperature=temperature+1;
      
      end 
+     end
           
       //Finish simulation and check for success
       initial begin
-        #100 
+        #400 
         if (err==0) 
           $display("***TEST PASSED! :) ***");
         $finish;
-
-      end
+        end
+     
+     
 
     //User's module
     aircon top (
