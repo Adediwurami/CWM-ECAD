@@ -20,13 +20,12 @@
 
 `timescale 1ns / 100ps
 
-module multiplexer(input a,
-input b,
+module multiplexer(input [23:0] a,
+input[23:0] b,
 input sel,
-output out
+output [23:0] out
 );
 
-wire out;
 
 assign out = 
 (sel==0) ? a:

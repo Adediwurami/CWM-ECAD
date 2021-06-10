@@ -32,12 +32,15 @@
 	
 	initial begin
 	       sel=0;
-	       rst=0;
+	       rst=1;
                err=0;
                button=0;
-           
+       
+       forever begin 
          #(2*CLK_PERIOD)
-           if (light!=24'hFFFFFF) begin
+           rst=0;
+
+           if ((sel==0)&&(light!=24'hFFFFFF)) begin
 	     $display("***TEST FAILED!***");
              err=1;
            end
@@ -45,12 +48,20 @@
          sel=1;
          button=1;
          #(2*CLK_PERIOD)
-           if (light==24'hFFFFFF) begin
+           if ((sel==1)&&(light==24'hFFFFFF)) begin
 	     $display("***TEST FAILED!***");
              err=1;
            end
          
-	           
+         sel=1;
+         button=0;
+         #(2*CLK_PERIOD)
+           if ((sel==1)&&(light==24'hFFFFFF)) begin
+	     $display("***TEST FAILED!***");
+             err=1;
+           end
+         
+	 end          
 	 end
          
 	 initial begin
