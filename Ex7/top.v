@@ -27,7 +27,8 @@ wire [23:0] rgb;
 
 lights l0(clk,rst,button,colour);
 RGB r0(clk,colour,!rst,rgb);
-multiplexer mux0({255,255,255},rgb,sel,light);
+multiplexer mux0(24'hFFFFFF,rgb,sel,light);
+
 
 
 endmodule 

@@ -28,7 +28,7 @@ output out
 
 wire out;
 
-assign #5 out = 
+assign out = 
 (sel==0) ? a:
 b;
              
