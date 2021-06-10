@@ -39,6 +39,7 @@ module top_tb(
      
      forever begin
      #CLK_PERIOD
+     current_state={heating,cooling};
      if (((current_state==2'b10)&&(temperature<5'b10100))&&({heating,cooling}!= 2'b10)) begin
       $display("***TEST FAILED!***");
       err=1;
@@ -74,8 +75,9 @@ module top_tb(
       err=1;
      end
      
-     current_state={heating,cooling};
+     
      temperature=temperature+1;
+     
      
      end 
      end

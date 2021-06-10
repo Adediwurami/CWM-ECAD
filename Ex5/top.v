@@ -37,7 +37,8 @@ always@(posedge clk) begin
 
   if (next_state)
    state<=next_state;
-  else begin 
+  
+  else begin
 
   if (temperature <= 5'b10010)
   state<=too_cold;
