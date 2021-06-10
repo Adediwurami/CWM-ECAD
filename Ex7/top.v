@@ -22,14 +22,11 @@ input rst;
 input button;
 output [23:0] light;
 
-wire [1:0] enable;
-assign enable = 1'b1;
-
 wire [2:0] colour;
 wire [23:0] rgb;
 
 lights l0(clk,rst,button,colour);
-RGB r0(clk,colour,enable,rgb);
+RGB r0(clk,colour,!rst,rgb);
 multiplexer mux0({255,255,255},rgb,sel,light);
 
 
