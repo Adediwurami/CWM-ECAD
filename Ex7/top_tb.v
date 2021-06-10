@@ -34,7 +34,7 @@
 	       sel=0;
 	       rst=0;
                err=0;
-               button=0;
+               button=1;
            
          #(2*CLK_PERIOD)
            if (light!={255,255,255}) begin
@@ -43,13 +43,15 @@
            end
          
           sel=1;
-
+          
           #(2*CLK_PERIOD)
-           if (light=={255,255,255}) begin
-	     $display("***TEST FAILED!***");
-             err=1;
-           end
-          end   
+          if (light=={255,255,255}) begin
+	    $display("***TEST FAILED!***");
+            err=1;
+          end
+	           
+
+	 end
          
 	 initial begin
 	        #400
