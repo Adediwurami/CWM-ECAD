@@ -28,8 +28,9 @@ assign enable = 1'b1;
 wire [2:0] colour;
 wire [23:0] rgb;
 
-multiplexer used(
-RGB required(clk,
-lights utilised(clk,rst,button,colour),enable,rgb),{255,255,255},sel,light);
+lights l0(clk,rst,button,colour);
+RGB r0(clk,colour,enable,rgb);
+multiplexer mux0({255,255,255},rgb,sel,light);
+
 
 endmodule 
