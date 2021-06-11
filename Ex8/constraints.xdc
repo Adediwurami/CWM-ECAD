@@ -16,6 +16,9 @@ set_property BITSTREAM.CONFIG.SPI_FALL_EDGE YES        [current_design]
 
 #############################################################################################################
 
+create_clock -period 10 -name clk [get_ports clk_p]
+set_clock_groups -asynchronous -group [get_clocks clk -include_generated_clocks]
 
-
+set_property IOSTANDARD LVCMOS18 [get_ports {led}]
+set_property PULLUP true [get_ports rst_n]
 
