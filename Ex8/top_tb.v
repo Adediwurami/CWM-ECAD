@@ -18,7 +18,7 @@ module top_tb(
     //Registers and wires
     reg clk;
     reg clk_p;
-    reg clk_b;
+    reg clk_n;
     reg temperature_0;
     reg temperature_1;
     reg temperature_2;
@@ -33,10 +33,26 @@ module top_tb(
     //Clock generation
     initial
     begin
-       clk = 1'b1;
+       
        forever
-         #(CLK_PERIOD/2) clk=~clk;
+
+       assign clk_n=1'b1
+
+       IBUFDS IBUFDS_sysclk (
+	.I(clk_p),
+	.IB(clk_n),
+	.O(clk_ibufds)
+       );
+
+       BUFG bufg_clk (
+	.I  (clk_ibufds),
+	.O  (clk)
+       );
+       
+     #(CLK_PERIOD/2) clk=~clk;
      end
+     
+     
     
      //Stimulus logic
      initial begin
