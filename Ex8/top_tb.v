@@ -24,6 +24,7 @@ module top_tb(
     reg temperature_2;
     reg temperature_3;
     reg temperature_4;
+    reg temperature;
     reg err;
     reg [1:0] current_state; 
     wire heating;
@@ -45,48 +46,50 @@ module top_tb(
      temperature_2=0;
      temperature_3=0;
      temperature_4=0;
+     temperature={temperature_0,temperature_1,temperature_2,temperature_3,temperature_4};
      current_state=2'b10;
      
+         
      forever begin
      #CLK_PERIOD
      current_state={heating,cooling};
-     if (((current_state==2'b10)&&({temperature_0,temperature_1,temperature_2,temperature_3,temperature_4}<5'b10100))&&({heating,cooling}!= 2'b10)) begin
+     if (((current_state==2'b10)&&(temperature<5'b10100))&&({heating,cooling}!= 2'b10)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
       
-      else if (((current_state==2'b10)&&({temperature_0,temperature_1,temperature_2,temperature_3,temperature_4}>=5'b10100))&&({heating,cooling}!= 2'b00)) begin
+      else if (((current_state==2'b10)&&(temperature>=5'b10100))&&({heating,cooling}!= 2'b00)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
      
-      else if (((current_state==2'b00)&&({temperature_0,temperature_1,temperature_2,temperature_3,temperature_4}>=5'b10110))&&({heating,cooling}!= 2'b01)) begin
+      else if (((current_state==2'b00)&&(temperature>=5'b10110))&&({heating,cooling}!= 2'b01)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
      
-       else if (((current_state==2'b00)&&({temperature_0,temperature_1,temperature_2,temperature_3,temperature_4}<=5'b10010))&&({heating,cooling}!= 2'b10))begin
+       else if (((current_state==2'b00)&&(temperature<=5'b10010))&&({heating,cooling}!= 2'b10))begin
       $display("***TEST FAILED!***");
       err=1;
      end
 
-      else if (((current_state==2'b00)&&(5'b10010<{temperature_0,temperature_1,temperature_2,temperature_3,temperature_4}<5'b10110))&&({heating,cooling}!= 2'b00)) begin
+      else if (((current_state==2'b00)&&(5'b10010<temperature<5'b10110))&&({heating,cooling}!= 2'b00)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
       
-      else if (((current_state==2'b01)&&({temperature_0,temperature_1,temperature_2,temperature_3,temperature_4}<=5'b10100))&&({heating,cooling}!= 2'b00)) begin
+      else if (((current_state==2'b01)&&(temperature<=5'b10100))&&({heating,cooling}!= 2'b00)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
 
-     else if (((current_state==2'b01)&&({temperature_0,temperature_1,temperature_2,temperature_3,temperature_4}>5'b10100))&&({heating,cooling}!= 2'b01)) begin
+     else if (((current_state==2'b01)&&(temperature>5'b10100))&&({heating,cooling}!= 2'b01)) begin
       $display("***TEST FAILED!***");
       err=1;
      end
      
      
-     {temperature_0,temperature_1,temperature_2,temperature_3,temperature_4}={temperature_0,temperature_1,temperature_2,temperature_3,temperature_4}+1;
+     temperature=temperature+1;
      
      
      end 
