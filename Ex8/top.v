@@ -25,8 +25,6 @@ module top(
     output cooling
     );
 
-    reg heating;
-    reg cooling;
     
     
 

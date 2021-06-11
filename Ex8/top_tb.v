@@ -24,7 +24,7 @@ module top_tb(
     reg temperature_2;
     reg temperature_3;
     reg temperature_4;
-    reg temperature;
+    reg [4:0] temperature;
     reg err;
     reg [1:0] current_state; 
     wire heating;
@@ -110,10 +110,10 @@ module top_tb(
      .clk_p(clk_p),
      .clk_n(clk_n),
      .temperature_0(temperature_0),
-     .temperature_0(temperature_1),
-     .temperature_0(temperature_2),
-     .temperature_0(temperature_3),
-     .temperature_0(temperature_4),
+     .temperature_1(temperature_1),
+     .temperature_2(temperature_2),
+     .temperature_3(temperature_3),
+     .temperature_4(temperature_4),
      .heating(heating),
      .cooling(cooling)
      );
