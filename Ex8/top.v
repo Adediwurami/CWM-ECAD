@@ -16,11 +16,11 @@
 module top(
     input clk_p,
     input clk_n,
-    input temperaure_0,
-    input temperaure_1,
-    input temperaure_2,
-    input temperaure_3,
-    input temperaure_4,
+    input temperature_0,
+    input temperature_1,
+    input temperature_2,
+    input temperature_3,
+    input temperature_4,
     output heating,
     output cooling
     );
@@ -48,6 +48,6 @@ module top(
 
 //Add logic here
 
-aircon a0(clk,{temperaure_0,temperaure_1,temperaure_2,temperaure_3,temperaure_4},heating,cooling);
+aircon a0(clk,{temperature_0,temperature_1,temperature_2,temperature_3,temperature_4},heating,cooling);
 
 endmodule
