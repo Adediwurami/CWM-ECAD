@@ -49,7 +49,7 @@ module top_tb(
      temperature_2=0;
      temperature_3=0;
      temperature_4=0;
-     temperature={temperature_0,temperature_1,temperature_2,temperature_3,temperature_4};
+     temperature={temperature_4,temperature_3,temperature_2,temperature_1,temperature_0};
      current_state=2'b10;
      
          

@@ -46,7 +46,7 @@ module top(
 
 //Add logic here
 wire [4:0] temperature;
-assign temperature={temperature_0,temperature_1,temperature_2,temperature_3,temperature_4};
+assign temperature={temperature_4,temperature_3,temperature_2,temperature_1,temperature_0};
 aircon a0(clk,temperature,heating,cooling);
 
 endmodule
