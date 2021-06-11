@@ -51,10 +51,11 @@ module top_tb(
      temperature_4=0;
      temperature={temperature_4,temperature_3,temperature_2,temperature_1,temperature_0};
      current_state=2'b10;
+     #10
      
          
      forever begin
-     #CLK_PERIOD
+     #(4*CLK_PERIOD)
      current_state={heating,cooling};
      if (((current_state==2'b10)&&(temperature<5'b10100))&&({heating,cooling}!= 2'b10)) begin
       $display("***TEST FAILED!***");
@@ -100,7 +101,7 @@ module top_tb(
           
       //Finish simulation and check for success
       initial begin
-        #400 
+        #1000 
         if (err==0) 
           $display("***TEST PASSED! :) ***");
         $finish;
